@@ -57,7 +57,7 @@ npm run dev
 
 Open http://localhost:3000. Zonder SMTP-instellingen komt de inlogcode in `uploads/outbox.log` en in de melding op het scherm (alleen buiten productie).
 
-Tests: `npx tsx test/parsers.ts`, `test/importeer.ts`, `test/facturen.ts`, `test/fiscaal.ts`, `test/exports-db.ts`, `test/d-moduleD.ts`.
+Tests: `npx tsx test/koppelingen.ts` (API-koppelingen, zonder netwerk), `npx tsx test/parsers.ts`, `test/importeer.ts`, `test/facturen.ts`, `test/fiscaal.ts`, `test/exports-db.ts`, `test/d-moduleD.ts`.
 
 ## Stack
 
@@ -80,4 +80,4 @@ Next.js 16 (App Router, server actions, proxy), Prisma 6 op SQLite (voor product
 
 - SBR-XBRL en XAF zijn welgevormd en in balans, maar niet tegen de officiële XSD's van de Belastingdienst gevalideerd.
 - Fiscale constanten 2026 staan met bron in `src/lib/fiscaal/constanten-2026.ts`; controleer ze bij elke jaarwisseling.
-- API-adapters (Enable Banking, Mollie, Stripe, Shopify, bol, WooCommerce, PayPal, Moneybird, e-Boekhouden) zijn volledig geschreven maar niet live getest met echte sleutels.
+- API-adapters (Enable Banking, Mollie, Stripe, Shopify, bol, WooCommerce, PayPal, Moneybird, e-Boekhouden) zijn gecontroleerd tegen de actuele API-documentatie (oktober 2026) en hebben contracttests met gedocumenteerde antwoorden (`npx tsx test/koppelingen.ts`). Live testen met sandboxsleutels: zie [docs/koppelingen-testen.md](docs/koppelingen-testen.md).
