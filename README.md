@@ -31,7 +31,7 @@ Volledig AI-boekhoudpakket voor zzp'ers (eenmanszaak zonder personeel). Eén pri
 - Btw-aangifte per maand, kwartaal of jaar: alle rubrieken 1a tot 5c, ICP-opgaaf, status ingediend/betaald, historie, deadlines.
 - IB-indicatie 2026: zelfstandigenaftrek, startersaftrek, MKB-winstvrijstelling, KIA, box-1 schijven, heffingskortingen, Zvw, reserveringsadvies per maand. KOR-advies.
 - Jaarrekening: winst-en-verliesrekening, balans, kengetallen, PDF.
-- Exports: Excel (9 tabbladen), XML Auditfile XAF 3.2, SBR/XBRL voor de btw-aangifte, ICP-CSV.
+- Exports: Excel (9 tabbladen), XML Auditfile XAF 4.0 (standaard; 3.2 nog voor boekjaren vóór 2027), SBR/XBRL voor de btw-aangifte, ICP-CSV.
 
 **Niets meer hoeven doen**
 - Dagelijkse vragenmail: elke twijfelregel met twee knoppen (Zakelijk / Privé). De ondertekende link boekt zonder inloggen via `/antwoord`.
@@ -57,7 +57,7 @@ npm run dev
 
 Open http://localhost:3000. Zonder SMTP-instellingen komt de inlogcode in `uploads/outbox.log` en in de melding op het scherm (alleen buiten productie).
 
-Tests: `npx tsx test/parsers.ts`, `test/importeer.ts`, `test/facturen.ts`, `test/fiscaal.ts`, `test/exports-db.ts`, `test/d-moduleD.ts`, `test/belastingdienst-xsd.ts` (genereert een voorbeeld-btw-aangifte en -auditfile en valideert ze tegen NT20 en de XAF 3.2-XSD; zie de kop van dat bestand voor de validators).
+Tests: `npx tsx test/parsers.ts`, `test/importeer.ts`, `test/facturen.ts`, `test/fiscaal.ts`, `test/exports-db.ts`, `test/d-moduleD.ts`, `test/belastingdienst-xsd.ts` (genereert een voorbeeld-btw-aangifte en auditfiles in XAF 4.0 en 3.2 en valideert ze tegen NT20 en de XSD's; draai ook met `TZ=UTC` en `TZ=Europe/Amsterdam`; zie de kop van dat bestand voor de validators).
 
 ## Stack
 
@@ -79,6 +79,7 @@ Next.js 16 (App Router, server actions, proxy), Prisma 6 op SQLite (voor product
 ## Nog te valideren vóór echt gebruik
 
 - SBR-XBRL is gevalideerd met Arelle tegen het officiële NT20-entrypoint `bd-rpt-ob-aangifte-2026` (nltaxonomie.nl, versie 20251210); de bedrijfsregels van de Belastingdienst buiten de taxonomie en het indienen via Digipoort zijn niet getest.
+- XAF 4.0 is gevalideerd tegen de officiële `XmlAuditfileFinancieel4.0.xsd` uit het ODB-pakket XAF 4.0.3, inclusief de consistentieregels [0003] en [0007]-[0010]. `RGSVersion` wordt nog niet meegegeven, omdat de RGS-versie van de codes niet is vastgelegd.
 - XAF 3.2 is gevalideerd tegen `XmlAuditfileFinancieel3.2.xsd`. De Belastingdienst publiceert die XSD niet meer (auditfiles.nl is offline); gebruikt is een kopie die in twee onafhankelijke repositories byte-gelijk is. Vanaf 1 januari 2027 accepteert de Belastingdienst alleen nog XAF 4.0.
 - Fiscale constanten 2026 staan met bron-URL (Belastingdienst, gecontroleerd 11-10-2026) in `src/lib/fiscaal/constanten-2026.ts`; controleer ze bij elke jaarwisseling.
 - API-adapters (Enable Banking, Mollie, Stripe, Shopify, bol, WooCommerce, PayPal, Moneybird, e-Boekhouden) zijn volledig geschreven maar niet live getest met echte sleutels.

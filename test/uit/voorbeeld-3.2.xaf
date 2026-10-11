@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <auditfile xmlns="http://www.auditfiles.nl/XAF/3.2">
 <header><fiscalYear>2026</fiscalYear><startDate>2026-01-01</startDate><endDate>2026-12-31</endDate><curCode>EUR</curCode><dateCreated>2026-10-01</dateCreated><softwareDesc>Zelfboek</softwareDesc><softwareVersion>1.0</softwareVersion></header>
-<company><companyIdent>12345678</companyIdent><companyName>Jan de Vries &amp; Zn</companyName><taxRegistrationCountry>NL</taxRegistrationCountry><taxRegIdent>NL123456789B01</taxRegIdent>
+<company><companyIdent>12345678</companyIdent><companyName>Jan de Vries &amp; Zn</companyName>
+<taxRegistrationCountry>NL</taxRegistrationCountry><taxRegIdent>NL123456789B01</taxRegIdent>
 <streetAddress><streetname>Dorpsstraat 1</streetname><city>Utrecht</city><postalCode>3511AA</postalCode><country>NL</country></streetAddress>
-<customersSuppliers><customerSupplier><custSupID>0000000001</custSupID><custSupName>Klant GmbH met een hele lange naam die langer is d</custSupName><taxRegistrationCountry>DE</taxRegistrationCountry><taxRegIdent>DE123456789</taxRegIdent><custSupTp>C</custSupTp><streetAddress><city>Berlin</city><country>DE</country></streetAddress></customerSupplier>
+<customersSuppliers>
+<customerSupplier><custSupID>0000000001</custSupID><custSupName>Klant GmbH met een hele lange naam die langer is d</custSupName><eMail>boekhouding@klant.de</eMail><taxRegistrationCountry>DE</taxRegistrationCountry><taxRegIdent>DE123456789</taxRegIdent><custSupTp>C</custSupTp><streetAddress><city>Berlin</city><country>DE</country></streetAddress></customerSupplier>
 <customerSupplier><custSupID>L-Coolblue B.V.</custSupID><custSupName>Coolblue B.V.</custSupName><taxRegIdent>NL810433941B01</taxRegIdent><custSupTp>S</custSupTp></customerSupplier>
-<customerSupplier><custSupID>L-Coolblue B.V. Belgie</custSupID><custSupName>Coolblue B.V. Belgie</custSupName><custSupTp>S</custSupTp></customerSupplier></customersSuppliers>
+<customerSupplier><custSupID>L-Coolblue B.V. Belgie</custSupID><custSupName>Coolblue B.V. Belgie</custSupName><custSupTp>S</custSupTp></customerSupplier>
+</customersSuppliers>
 <generalLedger>
 <ledgerAccount><accID>BEivKapPro</accID><accDesc>Privé-opnamen en -stortingen</accDesc><accTp>B</accTp><taxonomy><taxoRef>https://www.referentiegrootboekschema.nl RGS 3</taxoRef><entryPoint><entryPointRef>RGS</entryPointRef><conceptRef>BEivKapPro</conceptRef></entryPoint></taxonomy></ledgerAccount>
 <ledgerAccount><accID>BLimBanRba</accID><accDesc>Bankrekening</accDesc><accTp>B</accTp><taxonomy><taxoRef>https://www.referentiegrootboekschema.nl RGS 3</taxoRef><entryPoint><entryPointRef>RGS</entryPointRef><conceptRef>BLimBanRba</conceptRef></entryPoint></taxonomy></ledgerAccount>
@@ -49,8 +52,8 @@
 </journal>
 <journal><jrnID>VRK</jrnID><desc>Verkoopboek</desc><jrnTp>S</jrnTp>
 <transaction><nr>5</nr><desc>Factuur 2026-0001 Klant GmbH</desc><periodNumber>6</periodNumber><trDt>2026-06-01</trDt><amnt>1000.00</amnt><amntTp>D</amntTp>
-<trLine><nr>1</nr><accID>BVorDebHad</accID><docRef>2026-0001</docRef><effDate>2026-06-01</effDate><desc>Factuur 2026-0001 Klant GmbH</desc><amnt>1000.00</amnt><amntTp>D</amntTp><custSupID>0000000001</custSupID></trLine>
-<trLine><nr>2</nr><accID>WOmzNopOlb</accID><docRef>2026-0001</docRef><effDate>2026-06-01</effDate><desc>Factuur 2026-0001 Klant GmbH</desc><amnt>1000.00</amnt><amntTp>C</amntTp><custSupID>0000000001</custSupID></trLine>
+<trLine><nr>1</nr><accID>BVorDebHad</accID><docRef>2026-0001</docRef><effDate>2026-06-01</effDate><desc>Factuur 2026-0001 Klant GmbH</desc><amnt>1000.00</amnt><amntTp>D</amntTp><custSupID>0000000001</custSupID><invRef>2026-0001</invRef></trLine>
+<trLine><nr>2</nr><accID>WOmzNopOlb</accID><docRef>2026-0001</docRef><effDate>2026-06-01</effDate><desc>Factuur 2026-0001 Klant GmbH</desc><amnt>1000.00</amnt><amntTp>C</amntTp><custSupID>0000000001</custSupID><invRef>2026-0001</invRef></trLine>
 </transaction>
 </journal>
 <journal><jrnID>MEM</jrnID><desc>Memoriaal</desc><jrnTp>M</jrnTp>

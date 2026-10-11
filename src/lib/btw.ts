@@ -117,7 +117,22 @@ export function btwAangifte(regels: Regel[]): Aangifte {
 export const euro = (n: number) =>
   new Intl.NumberFormat("nl-NL", { style: "currency", currency: "EUR" }).format(n);
 
-export const datumNl = (d: Date) =>
-  new Intl.DateTimeFormat("nl-NL", { day: "2-digit", month: "2-digit", year: "numeric" }).format(d);
+/** Datums tonen we altijd als Nederlandse kalenderdatum, los van de tijdzone van de server. */
+export const TIJDZONE = "Europe/Amsterdam";
 
-export const isoDatum = (d: Date) => d.toISOString().slice(0, 10);
+const nlDatum = new Intl.DateTimeFormat("nl-NL", { timeZone: TIJDZONE, day: "2-digit", month: "2-digit", year: "numeric" });
+export const datumNl = (d: Date) => nlDatum.format(d);
+
+const isoFormaat = new Intl.DateTimeFormat("en-CA", { timeZone: TIJDZONE, year: "numeric", month: "2-digit", day: "2-digit" });
+/**
+ * Kalenderdatum JJJJ-MM-DD in Nederlandse tijd. toISOString() gaf de UTC-datum, waardoor lokale middernacht
+ * (new Date(2026, 0, 1) op een machine in NL) 2025-12-31 werd. UTC-middernacht (new Date("2026-01-01")) en
+ * lokale middernacht in NL of UTC vallen in Nederland op dezelfde kalenderdag, dus dit klopt in beide tijdzones.
+ */
+export const isoDatum = (d: Date) => {
+  const p = Object.fromEntries(isoFormaat.formatToParts(d).map((x) => [x.type, x.value]));
+  return `${p.year}-${p.month}-${p.day}`;
+};
+
+/** Maandnummer 1-12 van de Nederlandse kalenderdatum (zelfde regel als isoDatum). */
+export const maandNl = (d: Date) => Number(isoDatum(d).slice(5, 7));

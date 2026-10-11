@@ -2,6 +2,7 @@ import { connection } from "next/server";
 import { huidigeOnderneming } from "@/lib/db";
 import { kwartaalVan } from "@/lib/btw";
 import { Kop, knopLicht } from "@/components/ui";
+import { XAF32_TOT_JAAR } from "@/lib/exports/xaf";
 
 export const instant = false;
 
@@ -15,12 +16,19 @@ export default async function Exports({ searchParams }: { searchParams: Promise<
   const periode = o.btwTijdvak === "maand" ? nu.getMonth() + 1 : o.btwTijdvak === "jaar" ? 0 : kwartaal;
   const tijdvakNaam = o.btwTijdvak === "maand" ? "deze maand" : o.btwTijdvak === "jaar" ? "dit jaar" : `het ${kwartaal}e kwartaal`;
 
-  const groepen: { kop: string; items: { titel: string; tekst: string; href: string; knop: string }[] }[] = [
+  const groepen: { kop: string; items: { titel: string; tekst: string; href: string; knop: string; extra?: { href: string; knop: string } }[] }[] = [
     {
       kop: "Hele administratie",
       items: [
         { titel: "Excel-werkboek", tekst: "Transacties, facturen, winst-en-verlies, balans, btw per kwartaal, bonnen, uren en kilometers in tabbladen. Voor je boekhouder of voor jezelf.", href: `/api/exports/excel?jaar=${jaar}`, knop: "Download Excel" },
-        { titel: "Auditfile voor de Belastingdienst", tekst: "Het standaardformaat (XAF 3.2) bij een controle of als je overstapt naar een ander pakket. Grootboek op RGS-codes.", href: `/api/exports/xaf?jaar=${jaar}`, knop: "Download auditfile" },
+        {
+          titel: "Auditfile voor de Belastingdienst",
+          tekst: "Het standaardformaat (XAF 4.0) bij een controle of als je overstapt naar een ander pakket. Grootboek op RGS-codes.",
+          href: `/api/exports/xaf?jaar=${jaar}`,
+          knop: "Download auditfile",
+          // XAF 3.2 alleen nog voor oudere boekjaren; vanaf 2027 accepteert de Belastingdienst alleen 4.0.
+          extra: jaar < XAF32_TOT_JAAR ? { href: `/api/exports/xaf?jaar=${jaar}&versie=3.2`, knop: "Oud formaat (XAF 3.2)" } : undefined,
+        },
         { titel: "Jaarrekening", tekst: "Winst-en-verliesrekening, balans en kengetallen op een paar pagina's. Handig bij een hypotheek of financiering.", href: `/api/exports/jaarrekening-pdf?jaar=${jaar}`, knop: "Download PDF" },
       ],
     },
@@ -51,7 +59,10 @@ export default async function Exports({ searchParams }: { searchParams: Promise<
                     <h3 className="font-medium">{k.titel}</h3>
                     <p className="mt-0.5 text-sm text-tekst-2">{k.tekst}</p>
                   </div>
-                  <a href={k.href} className={knopLicht}>{k.knop}</a>
+                  <div className="flex items-center gap-3">
+                    {k.extra && <a href={k.extra.href} className="text-sm text-tekst-2 underline underline-offset-2">{k.extra.knop}</a>}
+                    <a href={k.href} className={knopLicht}>{k.knop}</a>
+                  </div>
                 </div>
               ))}
             </div>

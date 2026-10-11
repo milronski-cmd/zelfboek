@@ -48,7 +48,7 @@ async function main() {
     writeFileSync("test/uit/test.xaf", xaf);
     if (XMLValidator.validate(xaf) !== true) throw new Error("XAF ongeldig: " + JSON.stringify(XMLValidator.validate(xaf)));
     const p = new XMLParser().parse(xaf);
-    const tr = p.auditfile.transactions;
+    const tr = p.auditfile.company.transactions; // XAF: transactions staat binnen company
     console.log("XAF regels:", tr.linesCount, "debet", tr.totalDebit, "credit", tr.totalCredit);
     if (tr.totalDebit !== tr.totalCredit) throw new Error("XAF debet != credit");
 

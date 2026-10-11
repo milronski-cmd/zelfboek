@@ -3,7 +3,7 @@ import { db } from "@/lib/db";
 import { huidigeSessie } from "@/lib/auth";
 import { btwAangifte, btwDeadline, kwartaalVan, periodeBereik } from "@/lib/btw";
 import { excelExport } from "@/lib/exports/excel";
-import { xafExport } from "@/lib/exports/xaf";
+import { XAF_STANDAARD, xafExport, xafVersieToegestaan, type XafVersie } from "@/lib/exports/xaf";
 import { OB_TAXONOMIE, sbrBtwAangifte } from "@/lib/exports/sbr";
 import { icpCsv, icpOpgaaf } from "@/lib/exports/icp";
 import { btwOverzichtPdf, jaarrekeningPdf } from "@/lib/exports/pdf-rapport";
@@ -36,8 +36,12 @@ export async function GET(req: Request, { params }: { params: Promise<{ soort: s
     switch (soort) {
       case "excel":
         return bestand(await excelExport(o.id, jaar), `${naam}-${jaar}.xlsx`, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-      case "xaf":
-        return bestand(await xafExport(o.id, jaar), `${naam}-${jaar}.xaf`, "application/xml");
+      case "xaf": {
+        // Standaard XAF 4.0; 3.2 alleen op verzoek en alleen voor boekjaren vóór 2027.
+        const versie: XafVersie = url.searchParams.get("versie") === "3.2" ? "3.2" : XAF_STANDAARD;
+        if (!xafVersieToegestaan(versie, jaar)) return NextResponse.json({ fout: `XAF ${versie} wordt vanaf boekjaar 2027 niet meer geaccepteerd. Gebruik XAF 4.0.` }, { status: 400 });
+        return bestand(await xafExport(o.id, jaar, versie), `${naam}-${jaar}-xaf${versie.replace(".", "")}.xaf`, "application/xml");
+      }
       case "jaarrekening-pdf":
         return bestand(await jaarrekeningPdf(o, await jaarrekening(o.id, jaar)), `jaarrekening-${naam}-${jaar}.pdf`, "application/pdf");
       case "sbr":
