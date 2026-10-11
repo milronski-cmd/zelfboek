@@ -4,54 +4,79 @@ import { datum, getal } from "@/lib/bank/csv";
 
 /**
  * PayPal: ontvangen betalingen als omzet, PayPal-kosten als betaalprovider (PayPal Europe, Luxemburg: eu_dienst).
- * Via de REST API (config { clientId, clientSecret }) of via het CSV-activiteitenrapport (importeerPaypalCsv).
+ * Via de REST API (config { clientId, clientSecret, sandbox? }) of via het CSV-activiteitenrapport (importeerPaypalCsv).
+ * Docs: https://developer.paypal.com/api/transaction-search/v1/ (schema: .../v1/schema.json), OAuth: https://developer.paypal.com/api/rest/authentication/
+ * - start_date/end_date in RFC 3339 met seconden, maximaal 31 dagen per verzoek; page_size max 500; total_pages in het antwoord;
+ * - bedragen zijn decimale strings, fee_amount is negatief; transaction_status S = voltooid;
+ * - nieuwe transacties verschijnen pas na maximaal 3 uur.
+ * Eventcodes (https://developer.paypal.com/docs/transaction-search/transaction-event-codes/): T00 betalingen, T01 losse kosten,
+ * T02 valutawissel, T03/T04 bank in/uit, T05-T07 kaart, T11 terugboekingen, T15-T22 blokkades, reserves en interne verplaatsingen.
  */
-async function token(clientId: string, clientSecret: string) {
-  const r = await fetch("https://api-m.paypal.com/v1/oauth2/token", {
+const OVERSLAAN = /^T0[2-7]|^T1[5-9]|^T2[0-2]/;
+
+export type PaypalConfig = { clientId: string; clientSecret: string; sandbox?: string };
+export const paypalBasis = (cfg: Pick<PaypalConfig, "sandbox">) => (cfg.sandbox === "true" ? "https://api-m.sandbox.paypal.com" : "https://api-m.paypal.com");
+
+export async function paypalToken(cfg: PaypalConfig) {
+  const r = await fetch(`${paypalBasis(cfg)}/v1/oauth2/token`, {
     method: "POST",
-    headers: { Authorization: `Basic ${Buffer.from(`${clientId}:${clientSecret}`).toString("base64")}`, "Content-Type": "application/x-www-form-urlencoded" },
+    headers: { Authorization: `Basic ${Buffer.from(`${cfg.clientId}:${cfg.clientSecret}`).toString("base64")}`, "Content-Type": "application/x-www-form-urlencoded", Accept: "application/json" },
     body: "grant_type=client_credentials",
   });
-  if (!r.ok) throw new Error("PayPal: client-id of secret ongeldig.");
+  if (!r.ok) throw new Error(`PayPal: client-id of secret ongeldig (${r.status}).`);
   return ((await r.json()) as { access_token: string }).access_token;
 }
 
-type PpTx = { transaction_info: { transaction_id: string; transaction_initiation_date: string; transaction_amount: { value: string }; fee_amount?: { value: string }; transaction_event_code: string; transaction_status: string; transaction_subject?: string; transaction_note?: string }; payer_info?: { payer_name?: { alternate_full_name?: string }; email_address?: string } };
+export type PpTx = {
+  transaction_info: { transaction_id: string; transaction_initiation_date: string; transaction_amount: { currency_code?: string; value: string }; fee_amount?: { currency_code?: string; value: string }; transaction_event_code: string; transaction_status: string; transaction_subject?: string; transaction_note?: string };
+  payer_info?: { payer_name?: { given_name?: string; surname?: string; alternate_full_name?: string }; email_address?: string };
+};
+
+const rfc3339 = (d: Date) => d.toISOString().replace(/\.\d{3}Z$/, "Z");
+
+export async function haalPaypalRegels(cfg: PaypalConfig, vanaf: Date, nu = new Date()): Promise<KanaalRegel[]> {
+  const t = await paypalToken(cfg);
+  const regels: KanaalRegel[] = [];
+  let start = new Date(vanaf);
+  while (start < nu) {
+    const eind = new Date(Math.min(start.getTime() + 31 * 864e5 - 1000, nu.getTime()));
+    for (let page = 1; page <= 100; page++) {
+      const q = new URLSearchParams({ start_date: rfc3339(start), end_date: rfc3339(eind), fields: "transaction_info,payer_info", page_size: "500", page: String(page) });
+      const r = await haalJson<{ transaction_details?: PpTx[]; total_pages?: number }>(
+        `${paypalBasis(cfg)}/v1/reporting/transactions?${q}`, { headers: { Authorization: `Bearer ${t}`, Accept: "application/json" } }, "PayPal",
+      );
+      for (const x of r.transaction_details ?? []) regels.push(...paypalNaarRegels(x));
+      if (page >= (r.total_pages ?? 1)) break;
+    }
+    start = new Date(eind.getTime() + 1000);
+  }
+  return regels;
+}
 
 export async function haalTransacties(ondernemingId: string, vanaf: Date): Promise<KanaalUitkomst> {
   return voerKanaalUit(ondernemingId, "paypal", async () => {
-    const cfg = await kanaalConfig<{ clientId: string; clientSecret: string }>(ondernemingId, "paypal", ["clientId", "clientSecret"], "PayPal");
-    const t = await token(cfg.clientId, cfg.clientSecret);
-    const regels: KanaalRegel[] = [];
-    // De API staat maximaal 31 dagen per verzoek toe
-    let start = new Date(vanaf);
-    const nu = new Date();
-    while (start < nu) {
-      const eind = new Date(Math.min(start.getTime() + 30 * 864e5, nu.getTime()));
-      for (let page = 1; page < 50; page++) {
-        const r = await haalJson<{ transaction_details: PpTx[]; total_pages: number }>(
-          `https://api-m.paypal.com/v1/reporting/transactions?start_date=${start.toISOString()}&end_date=${eind.toISOString()}&fields=transaction_info,payer_info&page_size=500&page=${page}`,
-          { headers: { Authorization: `Bearer ${t}` } }, "PayPal",
-        );
-        for (const x of r.transaction_details) regels.push(...naarRegels(x));
-        if (page >= (r.total_pages ?? 1)) break;
-      }
-      start = new Date(eind.getTime() + 1000);
-    }
-    return bewaarKanaalRegels(ondernemingId, "paypal", regels);
+    const cfg = await kanaalConfig<PaypalConfig>(ondernemingId, "paypal", ["clientId", "clientSecret"], "PayPal");
+    return bewaarKanaalRegels(ondernemingId, "paypal", await haalPaypalRegels(cfg, vanaf));
   });
 }
 
-function naarRegels(x: PpTx): KanaalRegel[] {
+export function paypalNaarRegels(x: PpTx): KanaalRegel[] {
   const i = x.transaction_info;
   if (i.transaction_status !== "S") return [];
-  const bedrag = parseFloat(i.transaction_amount.value);
-  const fee = Math.abs(parseFloat(i.fee_amount?.value ?? "0"));
-  if (!bedrag || /^T03|^T04|^T05|^T06|^T07/.test(i.transaction_event_code)) return []; // overboekingen naar bank en interne verplaatsingen overslaan
-  const naam = x.payer_info?.payer_name?.alternate_full_name || x.payer_info?.email_address || "PayPal";
+  const code = i.transaction_event_code ?? "";
+  if (OVERSLAAN.test(code)) return [];
+  const bedrag = parseFloat(i.transaction_amount.value) || 0;
+  const fee = Math.abs(parseFloat(i.fee_amount?.value ?? "0") || 0);
   const d = new Date(i.transaction_initiation_date);
+  if (/^T01/.test(code)) {
+    // Losse PayPal-kosten (bijv. chargeback- of valutakosten) zijn geen omzet
+    return bedrag ? [{ datum: d, bedrag: -Math.abs(bedrag), tegenpartij: "PayPal (Europe)", omschrijving: i.transaction_subject || `PayPal-kosten ${i.transaction_id}`, externId: i.transaction_id, categorie: "betaalprovider", btwCode: "eu_dienst" }] : [];
+  }
+  const pn = x.payer_info?.payer_name;
+  const naam = pn?.alternate_full_name || [pn?.given_name, pn?.surname].filter(Boolean).join(" ") || x.payer_info?.email_address || "PayPal";
   const oms = i.transaction_subject || i.transaction_note || `PayPal ${i.transaction_id}`;
-  const uit: KanaalRegel[] = [{ datum: d, bedrag, tegenpartij: naam, omschrijving: oms, externId: i.transaction_id, categorie: bedrag > 0 ? "omzet" : "klant_terugbetaling", btwCode: "21" }];
+  const uit: KanaalRegel[] = [];
+  if (bedrag) uit.push({ datum: d, bedrag, tegenpartij: naam, omschrijving: oms, externId: i.transaction_id, categorie: bedrag > 0 ? "omzet" : "klant_terugbetaling", btwCode: "21" });
   if (fee > 0) uit.push({ datum: d, bedrag: -fee, tegenpartij: "PayPal (Europe)", omschrijving: `PayPal-kosten ${i.transaction_id}`, externId: `${i.transaction_id}-fee`, categorie: "betaalprovider", btwCode: "eu_dienst" });
   return uit;
 }
