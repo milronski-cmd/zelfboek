@@ -18,8 +18,8 @@ check("KIA afbouw", kiaBerekening(200000) === Math.round((20072 - (200000 - 1327
 check("KIA nul", kiaBerekening(400000) === 0);
 
 // Box 1
-check("box1 30k", box1Belasting(30000) === 10710);
-check("box1 50k", Math.abs(box1Belasting(50000) - (38883 * 0.357 + (50000 - 38883) * 0.3756)) < 0.01);
+check("box1 30k", box1Belasting(30000) === 10725);
+check("box1 50k", Math.abs(box1Belasting(50000) - (38883 * 0.3575 + (50000 - 38883) * 0.3756)) < 0.01);
 check("AHK max", algemeneHeffingskorting(20000) === 3115);
 check("AHK afbouw", algemeneHeffingskorting(50000) === Math.round((3115 - (50000 - 29736) * 0.06398) * 100) / 100);
 check("AK max-ish", arbeidskorting(40000) === Math.round((5300 + (40000 - 25845) * 0.0195) * 100) / 100);
@@ -64,7 +64,10 @@ const xml = sbrBtwAangifte({ aangifte: a, btwId: "NL123456789B01", naam: "Test B
 check("SBR geldig XML", XMLValidator.validate(xml) === true, XMLValidator.validate(xml));
 const p = new XMLParser({ ignoreAttributes: false }).parse(xml);
 check("SBR concept 1a", String(p["xbrli:xbrl"]["bd-i:ValueAddedTaxSuppliesServicesGeneralTariff"]["#text"]) === "210");
-check("SBR 5c", String(p["xbrli:xbrl"]["bd-i:ValueAddedTaxOwedToBePaidBack"]["#text"]) === String(Math.round(a["5c_te_betalen"])));
+// 5g = 5a - 5b uit de afgeronde rubrieken (hele euro's), zodat de aangifte intern sluit.
+const sbrV = (c: string) => Number(p["xbrli:xbrl"][`bd-i:${c}`]["#text"]);
+check("SBR 5g = 5a - 5b", sbrV("ValueAddedTaxOwedToBePaidBack") === sbrV("ValueAddedTaxOwed") - sbrV("ValueAddedTaxOnInput"));
+check("SBR 5g ≈ saldo", Math.abs(sbrV("ValueAddedTaxOwedToBePaidBack") - a["5c_te_betalen"]) <= 2);
 check("SBR periode", p["xbrli:xbrl"]["xbrli:context"]["xbrli:period"]["xbrli:startDate"] === "2026-07-01");
 
 // KOR

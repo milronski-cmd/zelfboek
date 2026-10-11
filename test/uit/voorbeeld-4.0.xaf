@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<auditfile xmlns="http://www.odb.belastingdienst.nl/Belastingdienst/BCPP/1.1/structures/XmlauditfileXAF_4.0">
+<header><fiscalYear>2026</fiscalYear><startDate>2026-01-01</startDate><endDate>2026-12-31</endDate><curCode>EUR</curCode><dateCreated>2026-10-01</dateCreated><softwareDesc>Zelfboek</softwareDesc><softwareVersion>1.0</softwareVersion></header>
+<company><Commercenr>12345678</Commercenr><companyName>Jan de Vries &amp; Zn</companyName>
+<taxRegistrationCountry>NL</taxRegistrationCountry><taxRegIdent>NL123456789B01</taxRegIdent>
+<streetAddress><streetname>Dorpsstraat 1</streetname><city>Utrecht</city><postalCode>3511AA</postalCode><country>NL</country></streetAddress>
+<customersSuppliers>
+<customerSupplier><custSupID>0000000001</custSupID><custSupName>Klant GmbH met een hele lange naam die langer is d</custSupName><eMail>boekhouding@klant.de</eMail><taxRegistrationCountry>DE</taxRegistrationCountry><taxRegIdent>DE123456789</taxRegIdent><custSupTp>C</custSupTp><streetAddress><city>Berlin</city><country>DE</country></streetAddress></customerSupplier>
+<customerSupplier><custSupID>L-Coolblue B.V.</custSupID><custSupName>Coolblue B.V.</custSupName><taxRegIdent>NL810433941B01</taxRegIdent><custSupTp>S</custSupTp></customerSupplier>
+<customerSupplier><custSupID>L-Coolblue B.V. Belgie</custSupID><custSupName>Coolblue B.V. Belgie</custSupName><custSupTp>S</custSupTp></customerSupplier>
+</customersSuppliers>
+<generalLedger>
+<ledgerAccount><accID>BEivKapPro</accID><accDesc>Privé-opnamen en -stortingen</accDesc><accTp>B</accTp><RGScode>BEivKapPro</RGScode></ledgerAccount>
+<ledgerAccount><accID>BLimBanRba</accID><accDesc>Bankrekening</accDesc><accTp>B</accTp><RGScode>BLimBanRba</RGScode></ledgerAccount>
+<ledgerAccount><accID>BLimKruKru</accID><accDesc>Kruisposten</accDesc><accTp>B</accTp><RGScode>BLimKruKru</RGScode></ledgerAccount>
+<ledgerAccount><accID>BMvaBeiVvp</accID><accDesc>Bedrijfsinventaris</accDesc><accTp>B</accTp><RGScode>BMvaBeiVvp</RGScode></ledgerAccount>
+<ledgerAccount><accID>BSchBepBtw</accID><accDesc>Te betalen omzetbelasting</accDesc><accTp>B</accTp><RGScode>BSchBepBtw</RGScode></ledgerAccount>
+<ledgerAccount><accID>BVorDebHad</accID><accDesc>Debiteuren</accDesc><accTp>B</accTp><RGScode>BVorDebHad</RGScode></ledgerAccount>
+<ledgerAccount><accID>BVorVbkTvo</accID><accDesc>BVorVbkTvo</accDesc><accTp>B</accTp><RGScode>BVorVbkTvo</RGScode></ledgerAccount>
+<ledgerAccount><accID>WAfsAfsMva</accID><accDesc>WAfsAfsMva</accDesc><accTp>P</accTp><RGScode>WAfsAfsMva</RGScode></ledgerAccount>
+<ledgerAccount><accID>WBedAutSof</accID><accDesc>Software en automatisering</accDesc><accTp>P</accTp><RGScode>WBedAutSof</RGScode></ledgerAccount>
+<ledgerAccount><accID>WBedKanKan</accID><accDesc>Kantoorkosten</accDesc><accTp>P</accTp><RGScode>WBedKanKan</RGScode></ledgerAccount>
+<ledgerAccount><accID>WBedVkkRep</accID><accDesc>Representatiekosten</accDesc><accTp>P</accTp><RGScode>WBedVkkRep</RGScode></ledgerAccount>
+<ledgerAccount><accID>WOmzNopOlb</accID><accDesc>Netto-omzet EU</accDesc><accTp>P</accTp><RGScode>WOmzNopOlb</RGScode></ledgerAccount>
+<ledgerAccount><accID>WOmzNopOlv</accID><accDesc>Netto-omzet leveringen en diensten</accDesc><accTp>P</accTp><RGScode>WOmzNopOlv</RGScode></ledgerAccount>
+</generalLedger>
+<vatCodes><vatCode><vatID>21</vatID><vatDesc>btw 21</vatDesc><vatToPayAccID>BSchBepBtw</vatToPayAccID><vatToClaimAccID>BVorVbkTvo</vatToClaimAccID></vatCode><vatCode><vatID>9</vatID><vatDesc>btw 9</vatDesc><vatToPayAccID>BSchBepBtw</vatToPayAccID><vatToClaimAccID>BVorVbkTvo</vatToClaimAccID></vatCode><vatCode><vatID>0</vatID><vatDesc>btw 0</vatDesc><vatToPayAccID>BSchBepBtw</vatToPayAccID><vatToClaimAccID>BVorVbkTvo</vatToClaimAccID></vatCode><vatCode><vatID>vrijgesteld</vatID><vatDesc>btw vrijgesteld</vatDesc><vatToPayAccID>BSchBepBtw</vatToPayAccID><vatToClaimAccID>BVorVbkTvo</vatToClaimAccID></vatCode><vatCode><vatID>geen</vatID><vatDesc>btw geen</vatDesc><vatToPayAccID>BSchBepBtw</vatToPayAccID><vatToClaimAccID>BVorVbkTvo</vatToClaimAccID></vatCode><vatCode><vatID>verlegd</vatID><vatDesc>btw verlegd</vatDesc><vatToPayAccID>BSchBepBtw</vatToPayAccID><vatToClaimAccID>BVorVbkTvo</vatToClaimAccID></vatCode><vatCode><vatID>eu_dienst</vatID><vatDesc>btw eu_dienst</vatDesc><vatToPayAccID>BSchBepBtw</vatToPayAccID><vatToClaimAccID>BVorVbkTvo</vatToClaimAccID></vatCode><vatCode><vatID>eu_goed</vatID><vatDesc>btw eu_goed</vatDesc><vatToPayAccID>BSchBepBtw</vatToPayAccID><vatToClaimAccID>BVorVbkTvo</vatToClaimAccID></vatCode><vatCode><vatID>buiten_eu</vatID><vatDesc>btw buiten_eu</vatDesc><vatToPayAccID>BSchBepBtw</vatToPayAccID><vatToClaimAccID>BVorVbkTvo</vatToClaimAccID></vatCode></vatCodes>
+<periods><period><periodNumber>1</periodNumber><startDatePeriod>2026-01-01</startDatePeriod><endDatePeriod>2026-01-31</endDatePeriod></period><period><periodNumber>2</periodNumber><startDatePeriod>2026-02-01</startDatePeriod><endDatePeriod>2026-02-28</endDatePeriod></period><period><periodNumber>3</periodNumber><startDatePeriod>2026-03-01</startDatePeriod><endDatePeriod>2026-03-31</endDatePeriod></period><period><periodNumber>4</periodNumber><startDatePeriod>2026-04-01</startDatePeriod><endDatePeriod>2026-04-30</endDatePeriod></period><period><periodNumber>5</periodNumber><startDatePeriod>2026-05-01</startDatePeriod><endDatePeriod>2026-05-31</endDatePeriod></period><period><periodNumber>6</periodNumber><startDatePeriod>2026-06-01</startDatePeriod><endDatePeriod>2026-06-30</endDatePeriod></period><period><periodNumber>7</periodNumber><startDatePeriod>2026-07-01</startDatePeriod><endDatePeriod>2026-07-31</endDatePeriod></period><period><periodNumber>8</periodNumber><startDatePeriod>2026-08-01</startDatePeriod><endDatePeriod>2026-08-31</endDatePeriod></period><period><periodNumber>9</periodNumber><startDatePeriod>2026-09-01</startDatePeriod><endDatePeriod>2026-09-30</endDatePeriod></period><period><periodNumber>10</periodNumber><startDatePeriod>2026-10-01</startDatePeriod><endDatePeriod>2026-10-31</endDatePeriod></period><period><periodNumber>11</periodNumber><startDatePeriod>2026-11-01</startDatePeriod><endDatePeriod>2026-11-30</endDatePeriod></period><period><periodNumber>12</periodNumber><startDatePeriod>2026-12-01</startDatePeriod><endDatePeriod>2026-12-31</endDatePeriod></period></periods>
+<openingBalance><linesCount>0</linesCount><totalDebit>0.00</totalDebit><totalCredit>0.00</totalCredit></openingBalance>
+<transactions><linesCount>16</linesCount><totalDebit>2868.53</totalDebit><totalCredit>2868.53</totalCredit>
+<journal><jrnID>BNK</jrnID><desc>Bankboek</desc><jrnTp>B</jrnTp>
+<transaction><nr>1</nr><desc>Klant NL Factuur 1</desc><periodNumber>1</periodNumber><trDt>2026-01-01</trDt><Source>Zelfboek</Source>
+<trLine><nr>1</nr><accID>BLimBanRba</accID><docRef>0000000001</docRef><effDate>2026-01-01</effDate><desc>Klant NL Factuur 1</desc><amnt>1210.00</amnt><amntTp>D</amntTp></trLine>
+<trLine><nr>2</nr><accID>WOmzNopOlv</accID><docRef>0000000001</docRef><effDate>2026-01-01</effDate><desc>Klant NL Factuur 1</desc><amnt>1000.00</amnt><amntTp>C</amntTp><vat><vatID>21</vatID><vatPerc>21.000</vatPerc><vatAmnt>210.00</vatAmnt><vatAmntTp>C</vatAmntTp></vat></trLine>
+<trLine><nr>3</nr><accID>BSchBepBtw</accID><docRef>0000000001</docRef><effDate>2026-01-01</effDate><desc>Klant NL Factuur 1</desc><amnt>210.00</amnt><amntTp>C</amntTp></trLine>
+</transaction>
+<transaction><nr>2</nr><desc>Coolblue Muis &lt;draadloos&gt;</desc><periodNumber>3</periodNumber><trDt>2026-03-05</trDt><Source>Zelfboek</Source>
+<trLine><nr>1</nr><accID>WBedKanKan</accID><docRef>0000000002</docRef><effDate>2026-03-05</effDate><desc>Coolblue Muis &lt;draadloos&gt;</desc><amnt>50.00</amnt><amntTp>D</amntTp><vat><vatID>21</vatID><vatPerc>21.000</vatPerc><vatAmnt>10.50</vatAmnt><vatAmntTp>D</vatAmntTp></vat></trLine>
+<trLine><nr>2</nr><accID>BVorVbkTvo</accID><docRef>0000000002</docRef><effDate>2026-03-05</effDate><desc>Coolblue Muis &lt;draadloos&gt;</desc><amnt>10.50</amnt><amntTp>D</amntTp></trLine>
+<trLine><nr>3</nr><accID>BLimBanRba</accID><docRef>0000000002</docRef><effDate>2026-03-05</effDate><desc>Coolblue Muis &lt;draadloos&gt;</desc><amnt>121.00</amnt><amntTp>C</amntTp></trLine>
+<trLine><nr>4</nr><accID>BEivKapPro</accID><docRef>0000000002</docRef><effDate>2026-03-05</effDate><desc>Coolblue Muis &lt;draadloos&gt;</desc><amnt>60.50</amnt><amntTp>D</amntTp></trLine>
+</transaction>
+<transaction><nr>3</nr><desc>Vercel Pro</desc><periodNumber>4</periodNumber><trDt>2026-04-02</trDt><Source>Zelfboek</Source>
+<trLine><nr>1</nr><accID>WBedAutSof</accID><docRef>0000000003</docRef><effDate>2026-04-02</effDate><desc>Vercel Pro</desc><amnt>24.20</amnt><amntTp>D</amntTp></trLine>
+<trLine><nr>2</nr><accID>BLimBanRba</accID><docRef>0000000003</docRef><effDate>2026-04-02</effDate><desc>Vercel Pro</desc><amnt>24.20</amnt><amntTp>C</amntTp></trLine>
+</transaction>
+<transaction><nr>4</nr><desc>Lunchroom lunch</desc><periodNumber>12</periodNumber><trDt>2026-12-31</trDt><Source>Zelfboek</Source>
+<trLine><nr>1</nr><accID>WBedVkkRep</accID><docRef>0000000004</docRef><effDate>2026-12-31</effDate><desc>Lunchroom lunch</desc><amnt>30.58</amnt><amntTp>D</amntTp><vat><vatID>9</vatID><vatPerc>9.000</vatPerc><vatAmnt>2.75</vatAmnt><vatAmntTp>D</vatAmntTp></vat></trLine>
+<trLine><nr>2</nr><accID>BVorVbkTvo</accID><docRef>0000000004</docRef><effDate>2026-12-31</effDate><desc>Lunchroom lunch</desc><amnt>2.75</amnt><amntTp>D</amntTp></trLine>
+<trLine><nr>3</nr><accID>BLimBanRba</accID><docRef>0000000004</docRef><effDate>2026-12-31</effDate><desc>Lunchroom lunch</desc><amnt>33.33</amnt><amntTp>C</amntTp></trLine>
+</transaction>
+</journal>
+<journal><jrnID>VRK</jrnID><desc>Verkoopboek</desc><jrnTp>S</jrnTp>
+<transaction><nr>5</nr><desc>Factuur 2026-0001 Klant GmbH</desc><periodNumber>6</periodNumber><trDt>2026-06-01</trDt><Source>Zelfboek</Source>
+<trLine><nr>1</nr><accID>BVorDebHad</accID><docRef>2026-0001</docRef><effDate>2026-06-01</effDate><desc>Factuur 2026-0001 Klant GmbH</desc><amnt>1000.00</amnt><amntTp>D</amntTp><custSupID>0000000001</custSupID><invRef>2026-0001</invRef></trLine>
+<trLine><nr>2</nr><accID>WOmzNopOlb</accID><docRef>2026-0001</docRef><effDate>2026-06-01</effDate><desc>Factuur 2026-0001 Klant GmbH</desc><amnt>1000.00</amnt><amntTp>C</amntTp><custSupID>0000000001</custSupID><invRef>2026-0001</invRef></trLine>
+</transaction>
+</journal>
+<journal><jrnID>MEM</jrnID><desc>Memoriaal</desc><jrnTp>M</jrnTp>
+<transaction><nr>6</nr><desc>Afschrijving laptop</desc><periodNumber>12</periodNumber><trDt>2026-12-31</trDt><Source>Zelfboek</Source>
+<trLine><nr>1</nr><accID>WAfsAfsMva</accID><docRef>0000000001</docRef><effDate>2026-12-31</effDate><desc>Afschrijving laptop</desc><amnt>480.00</amnt><amntTp>D</amntTp></trLine>
+<trLine><nr>2</nr><accID>BMvaBeiVvp</accID><docRef>0000000001</docRef><effDate>2026-12-31</effDate><desc>Afschrijving laptop</desc><amnt>480.00</amnt><amntTp>C</amntTp></trLine>
+</transaction>
+</journal>
+</transactions>
+</company>
+</auditfile>

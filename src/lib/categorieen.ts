@@ -93,7 +93,7 @@ export const BTW_LABEL: Record<BtwCode, string> = {
   buiten_eu: "buiten EU",
 };
 
-export const KM_VERGOEDING_2026 = 0.23;
+export { KM_VERGOEDING as KM_VERGOEDING_2026 } from "./fiscaal/constanten-2026";
 export const INVESTERINGSGRENS = 450;
 export const URENCRITERIUM = 1225;
 

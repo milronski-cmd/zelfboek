@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xbrli:xbrl xml:lang="nl" xmlns:xbrli="http://www.xbrl.org/2003/instance" xmlns:link="http://www.xbrl.org/2003/linkbase" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:iso4217="http://www.xbrl.org/2003/iso4217" xmlns:bd-i="http://www.nltaxonomie.nl/nt20/bd/20251210/dictionary/bd-data">
+<link:schemaRef xlink:type="simple" xlink:href="http://www.nltaxonomie.nl/nt20/bd/20251210/entrypoints/bd-rpt-ob-aangifte-2026.xsd"/>
+<xbrli:context id="c1"><xbrli:entity><xbrli:identifier scheme="www.belastingdienst.nl/omzetbelastingnummer">NL123456789B01</xbrli:identifier></xbrli:entity><xbrli:period><xbrli:startDate>2026-07-01</xbrli:startDate><xbrli:endDate>2026-09-30</xbrli:endDate></xbrli:period></xbrli:context>
+<xbrli:unit id="EUR"><xbrli:measure>iso4217:EUR</xbrli:measure></xbrli:unit>
+<bd-i:ContactInitials contextRef="c1">J.</bd-i:ContactInitials>
+<bd-i:ContactPrefix contextRef="c1">de</bd-i:ContactPrefix>
+<bd-i:ContactSurname contextRef="c1">Vries</bd-i:ContactSurname>
+<bd-i:ContactTelephoneNumber contextRef="c1">0612345678</bd-i:ContactTelephoneNumber>
+<bd-i:ContactType contextRef="c1">BPL</bd-i:ContactType>
+<bd-i:DateTimeCreation contextRef="c1">202610011200</bd-i:DateTimeCreation>
+<bd-i:MessageReferenceSupplierVAT contextRef="c1">123456789-2026K3</bd-i:MessageReferenceSupplierVAT>
+<bd-i:SoftwarePackageName contextRef="c1">Zelfboek</bd-i:SoftwarePackageName>
+<bd-i:SoftwarePackageVersion contextRef="c1">1.0</bd-i:SoftwarePackageVersion>
+<bd-i:SoftwareVendorAccountNumber contextRef="c1">SWO00000</bd-i:SoftwareVendorAccountNumber>
+<bd-i:TaxedTurnoverSuppliesServicesGeneralTariff contextRef="c1" unitRef="EUR" decimals="INF">1000</bd-i:TaxedTurnoverSuppliesServicesGeneralTariff>
+<bd-i:ValueAddedTaxSuppliesServicesGeneralTariff contextRef="c1" unitRef="EUR" decimals="INF">210</bd-i:ValueAddedTaxSuppliesServicesGeneralTariff>
+<bd-i:TaxedTurnoverSuppliesServicesReducedTariff contextRef="c1" unitRef="EUR" decimals="INF">100</bd-i:TaxedTurnoverSuppliesServicesReducedTariff>
+<bd-i:ValueAddedTaxSuppliesServicesReducedTariff contextRef="c1" unitRef="EUR" decimals="INF">9</bd-i:ValueAddedTaxSuppliesServicesReducedTariff>
+<bd-i:TaxedTurnoverSuppliesServicesOtherRates contextRef="c1" unitRef="EUR" decimals="INF">0</bd-i:TaxedTurnoverSuppliesServicesOtherRates>
+<bd-i:ValueAddedTaxSuppliesServicesOtherRates contextRef="c1" unitRef="EUR" decimals="INF">0</bd-i:ValueAddedTaxSuppliesServicesOtherRates>
+<bd-i:TaxedTurnoverPrivateUse contextRef="c1" unitRef="EUR" decimals="INF">0</bd-i:TaxedTurnoverPrivateUse>
+<bd-i:ValueAddedTaxPrivateUse contextRef="c1" unitRef="EUR" decimals="INF">0</bd-i:ValueAddedTaxPrivateUse>
+<bd-i:SuppliesServicesNotTaxed contextRef="c1" unitRef="EUR" decimals="INF">0</bd-i:SuppliesServicesNotTaxed>
+<bd-i:TurnoverSuppliesServicesByWhichVATTaxationIsTransferred contextRef="c1" unitRef="EUR" decimals="INF">0</bd-i:TurnoverSuppliesServicesByWhichVATTaxationIsTransferred>
+<bd-i:ValueAddedTaxSuppliesServicesByWhichVATTaxationIsTransferred contextRef="c1" unitRef="EUR" decimals="INF">0</bd-i:ValueAddedTaxSuppliesServicesByWhichVATTaxationIsTransferred>
+<bd-i:SuppliesToCountriesOutsideTheEC contextRef="c1" unitRef="EUR" decimals="INF">300</bd-i:SuppliesToCountriesOutsideTheEC>
+<bd-i:SuppliesToCountriesWithinTheEC contextRef="c1" unitRef="EUR" decimals="INF">500</bd-i:SuppliesToCountriesWithinTheEC>
+<bd-i:InstallationDistanceSalesWithinTheEC contextRef="c1" unitRef="EUR" decimals="INF">0</bd-i:InstallationDistanceSalesWithinTheEC>
+<bd-i:TurnoverFromTaxedSuppliesFromCountriesOutsideTheEC contextRef="c1" unitRef="EUR" decimals="INF">100</bd-i:TurnoverFromTaxedSuppliesFromCountriesOutsideTheEC>
+<bd-i:ValueAddedTaxOnSuppliesFromCountriesOutsideTheEC contextRef="c1" unitRef="EUR" decimals="INF">21</bd-i:ValueAddedTaxOnSuppliesFromCountriesOutsideTheEC>
+<bd-i:TurnoverFromTaxedSuppliesFromCountriesWithinTheEC contextRef="c1" unitRef="EUR" decimals="INF">24</bd-i:TurnoverFromTaxedSuppliesFromCountriesWithinTheEC>
+<bd-i:ValueAddedTaxOnSuppliesFromCountriesWithinTheEC contextRef="c1" unitRef="EUR" decimals="INF">5</bd-i:ValueAddedTaxOnSuppliesFromCountriesWithinTheEC>
+<bd-i:ValueAddedTaxOwed contextRef="c1" unitRef="EUR" decimals="INF">245</bd-i:ValueAddedTaxOwed>
+<bd-i:ValueAddedTaxOnInput contextRef="c1" unitRef="EUR" decimals="INF">37</bd-i:ValueAddedTaxOnInput>
+<bd-i:ValueAddedTaxOwedToBePaidBack contextRef="c1" unitRef="EUR" decimals="INF">208</bd-i:ValueAddedTaxOwedToBePaidBack>
+</xbrli:xbrl>
