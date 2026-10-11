@@ -57,7 +57,7 @@ npm run dev
 
 Open http://localhost:3000. Zonder SMTP-instellingen komt de inlogcode in `uploads/outbox.log` en in de melding op het scherm (alleen buiten productie).
 
-Tests: `npx tsx test/parsers.ts`, `test/importeer.ts`, `test/facturen.ts`, `test/fiscaal.ts`, `test/exports-db.ts`, `test/d-moduleD.ts`.
+Tests: `npx tsx test/parsers.ts`, `test/importeer.ts`, `test/facturen.ts`, `test/fiscaal.ts`, `test/exports-db.ts`, `test/d-moduleD.ts`, `test/belastingdienst-xsd.ts` (genereert een voorbeeld-btw-aangifte en -auditfile en valideert ze tegen NT20 en de XAF 3.2-XSD; zie de kop van dat bestand voor de validators).
 
 ## Stack
 
@@ -78,6 +78,7 @@ Next.js 16 (App Router, server actions, proxy), Prisma 6 op SQLite (voor product
 
 ## Nog te valideren vóór echt gebruik
 
-- SBR-XBRL en XAF zijn welgevormd en in balans, maar niet tegen de officiële XSD's van de Belastingdienst gevalideerd.
-- Fiscale constanten 2026 staan met bron in `src/lib/fiscaal/constanten-2026.ts`; controleer ze bij elke jaarwisseling.
+- SBR-XBRL is gevalideerd met Arelle tegen het officiële NT20-entrypoint `bd-rpt-ob-aangifte-2026` (nltaxonomie.nl, versie 20251210); de bedrijfsregels van de Belastingdienst buiten de taxonomie en het indienen via Digipoort zijn niet getest.
+- XAF 3.2 is gevalideerd tegen `XmlAuditfileFinancieel3.2.xsd`. De Belastingdienst publiceert die XSD niet meer (auditfiles.nl is offline); gebruikt is een kopie die in twee onafhankelijke repositories byte-gelijk is. Vanaf 1 januari 2027 accepteert de Belastingdienst alleen nog XAF 4.0.
+- Fiscale constanten 2026 staan met bron-URL (Belastingdienst, gecontroleerd 11-10-2026) in `src/lib/fiscaal/constanten-2026.ts`; controleer ze bij elke jaarwisseling.
 - API-adapters (Enable Banking, Mollie, Stripe, Shopify, bol, WooCommerce, PayPal, Moneybird, e-Boekhouden) zijn volledig geschreven maar niet live getest met echte sleutels.

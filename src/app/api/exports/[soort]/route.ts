@@ -4,7 +4,7 @@ import { huidigeSessie } from "@/lib/auth";
 import { btwAangifte, btwDeadline, kwartaalVan, periodeBereik } from "@/lib/btw";
 import { excelExport } from "@/lib/exports/excel";
 import { xafExport } from "@/lib/exports/xaf";
-import { sbrBtwAangifte } from "@/lib/exports/sbr";
+import { OB_TAXONOMIE, sbrBtwAangifte } from "@/lib/exports/sbr";
 import { icpCsv, icpOpgaaf } from "@/lib/exports/icp";
 import { btwOverzichtPdf, jaarrekeningPdf } from "@/lib/exports/pdf-rapport";
 import { jaarrekening } from "@/lib/fiscaal/jaarrekening";
@@ -46,8 +46,10 @@ export async function GET(req: Request, { params }: { params: Promise<{ soort: s
         const regels = await db.transactie.findMany({ where: { ondernemingId: o.id, datum: { gte: start, lt: eind } }, select: { bedrag: true, btwCode: true, btwBedrag: true, zakelijk: true, categorie: true, priveDeel: true } });
         const aangifte = btwAangifte(regels);
         if (soort === "sbr") {
-          const btwId = o.btwId ?? o.btwNummer ?? "";
-          if (!btwId) return NextResponse.json({ fout: "Vul eerst je btw-identificatienummer in bij Instellingen." }, { status: 400 });
+          // Aangifte gaat op het omzetbelastingnummer; bij een eenmanszaak verschilt dat van het btw-id op facturen.
+          const btwId = o.btwNummer ?? o.btwId ?? "";
+          if (!btwId) return NextResponse.json({ fout: "Vul eerst je omzetbelastingnummer in bij Instellingen." }, { status: 400 });
+          if (!OB_TAXONOMIE[jaar]) return NextResponse.json({ fout: `SBR-aangifte over ${jaar} wordt nog niet ondersteund.` }, { status: 400 });
           return bestand(sbrBtwAangifte({ aangifte, btwId, naam: o.naam, jaar, tijdvak, periode, contact: { naam: o.naam, telefoon: o.telefoon ?? undefined } }), `btw-${jaar}-${periode}.xbrl`, "application/xml");
         }
         return bestand(await btwOverzichtPdf(o, { jaar, tijdvak, periode, aangifte, deadline: btwDeadline(eind) }), `btw-${jaar}-${periode}.pdf`, "application/pdf");
